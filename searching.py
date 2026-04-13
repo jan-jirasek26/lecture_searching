@@ -24,17 +24,37 @@ def read_data(file_name, field):
         return None
     else:
         sequential_data = dict[field]
-        return print(sequential_data)
+        return sequential_data
 
     # get current working directory path
     cwd_path = Path.cwd()
     
     file_path = cwd_path / file_name
 
+def linear_search(sequence, wanted_num):
+    positions = []
+    count = 0
+    i = 0
+    while i < len(sequence):
+        if sequence[i] == wanted_num:
+            positions.append(i)
+            count += 1
+            i += 1
+        else:
+            i += 1
+
+    return positions, count
 
 def main():
-    read_data("sequential.json", "unordered_numbers")
+    sequence = read_data("sequential.json", "unordered_numbers")
+    print(sequence)
 
+    if sequence == None:
+        return None
+    else:
+        wanted_number = 0
+        positions, count = linear_search(sequence, wanted_number)
+        print(f"Hledané číslo {wanted_number} se nachází na pozicích: {positions}, celkový počet výskytů: {count}")
 
 if __name__ == "__main__":
     main()
