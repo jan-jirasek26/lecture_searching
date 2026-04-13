@@ -1,5 +1,8 @@
 from pathlib import Path
+import matplotlib.pyplot as plt
+import generators as gen
 import json
+import time
 
 def read_data(file_name, field):
     """
@@ -34,6 +37,9 @@ def linear_search(sequence, wanted_num):
     positions = []
     count = 0
     i = 0
+
+    start_l = time.perf_counter()
+
     for num in sequence:
         if num == wanted_num:
             positions.append(i)
@@ -42,7 +48,11 @@ def linear_search(sequence, wanted_num):
         else:
             i += 1
 
-    return positions, count
+    end_l = time.perf_counter()
+
+    duration_l = end_l - start_l
+
+    return positions, count, duration_l
 """
 Sekvenční vyhledávání v neseřazeném seznamu projde všechny prvky prootže hledaná hodnota může být kdekoliv
 
@@ -55,6 +65,9 @@ Nejhorší scénář         i = None                    O(n)
 def binary_search(sequence, wanted_num):
     left = 0
     right = len(sequence)
+
+    start_b = time.perf_counter()
+
     while True:
         if wanted_num not in sequence:
             return None
@@ -70,8 +83,10 @@ def binary_search(sequence, wanted_num):
         elif sequence[middle] > wanted_num:
             right = middle
             continue
+    end_b = time.perf_counter()
 
-    return sequence.index(wanted_num)
+    duration_b = end_b - start_b
+    return sequence.index(wanted_num), duration_b
 """
 Binárním vyhledáváním zmenšujeme počet proledávaných prvků v jednotlivých krocích: n/2, n/4...
 
@@ -90,15 +105,33 @@ Nejhorší scénář      vždy                              O(log(n)
 def main():
     sequence = read_data("sequential.json", "unordered_numbers")
     sequence_ord = read_data("sequential.json", "ordered_numbers")
-    #print(sequence)
-    print(sequence_ord)
 
     if sequence == None:
         return None
     else:
         wanted_number = 22
-        #positions, count = linear_search(sequence, wanted_number)
-        #print(f"Hledané číslo {wanted_number} se nachází na pozicích: {positions}, celkový počet výskytů: {count}")
-        print(f"Hledané číslo {wanted_number} se nachází na {binary_search(sequence_ord, wanted_number)} indexu")
+        positions, count, duration_l = linear_search(sequence, wanted_number)
+        binary_search(sequence_ord, wanted_number)
+
 if __name__ == "__main__":
-    main()
+    sizes = [100, 500, 1000, 5000, 10000]
+    times_l = []
+    for size in sizes:
+        positions, count, duration_l = linear_search(gen.unordered_sequence(size), 50)
+        times_l.append(duration_l)
+
+    times_b = []
+    for size in sizes:
+        sequence = gen.ordered_sequence(size)
+        index, duration_b = binary_search(sequence, sequence[5])
+        times_b.append(duration_b)
+
+    import matplotlib.pyplot as plt
+
+    #plt.plot(sizes, times_l)
+    plt.plot(sizes, times_b)
+
+    plt.xlabel("Velikost vstupu")
+    plt.ylabel("Čas [s]")
+    plt.title("Ukázkový graf měření")
+    plt.show()
