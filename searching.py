@@ -72,6 +72,20 @@ def binary_search(sequence, wanted_num):
             continue
 
     return sequence.index(wanted_num)
+"""
+Binárním vyhledáváním zmenšujeme počet proledávaných prvků v jednotlivých krocích: n/2, n/4...
+
+1. Prvek se nachází v sezanamu
+                    Kdy nastane?            Asymptotická složitost
+Nejlepší scénář      je uprostřed                      O(1)
+Nejhorší scénář      je na kraji                       O(log(n))
+
+2. Prvek se nenachází v seznamu
+                    Kdy nastane?            Asymptotická složitost
+Nejlepší scénář      vždy                              O(log(n)
+Nejhorší scénář      vždy                              O(log(n)
+
+"""
 
 def main():
     sequence = read_data("sequential.json", "unordered_numbers")
@@ -85,6 +99,6 @@ def main():
         wanted_number = 22
         #positions, count = linear_search(sequence, wanted_number)
         #print(f"Hledané číslo {wanted_number} se nachází na pozicích: {positions}, celkový počet výskytů: {count}")
-        print(binary_search(sequence_ord, wanted_number))
+        print(f"Hledané číslo {wanted_number} se nachází na {binary_search(sequence_ord, wanted_number)} indexu")
 if __name__ == "__main__":
     main()
