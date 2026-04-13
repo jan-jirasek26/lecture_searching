@@ -44,18 +44,47 @@ def linear_search(sequence, wanted_num):
 
     return positions, count
 """
-Sekvenční vyhledávání v neseřazeném seznamu projde všechny prvky než na"""
+Sekvenční vyhledávání v neseřazeném seznamu projde všechny prvky prootže hledaná hodnota může být kdekoliv
+
+                    Kdy nastane?            Asymptotická složitost
+Nejlepší scénář         i = 0                       O(1)
+Nejhorší scénář         i = None                    O(n)
+
+"""
+
+def binary_search(sequence, wanted_num):
+    left = 0
+    right = len(sequence)
+    while True:
+        if wanted_num not in sequence:
+            return None
+
+        middle = int((left + right) / 2)
+        x = sequence[middle]
+
+        if sequence[middle] == wanted_num:
+            break
+        elif sequence[middle] < wanted_num:
+            left = middle
+            continue
+        elif sequence[middle] > wanted_num:
+            right = middle
+            continue
+
+    return sequence.index(wanted_num)
 
 def main():
     sequence = read_data("sequential.json", "unordered_numbers")
-    print(sequence)
+    sequence_ord = read_data("sequential.json", "ordered_numbers")
+    #print(sequence)
+    print(sequence_ord)
 
     if sequence == None:
         return None
     else:
-        wanted_number = 0
-        positions, count = linear_search(sequence, wanted_number)
-        print(f"Hledané číslo {wanted_number} se nachází na pozicích: {positions}, celkový počet výskytů: {count}")
-
+        wanted_number = 22
+        #positions, count = linear_search(sequence, wanted_number)
+        #print(f"Hledané číslo {wanted_number} se nachází na pozicích: {positions}, celkový počet výskytů: {count}")
+        print(binary_search(sequence_ord, wanted_number))
 if __name__ == "__main__":
     main()
