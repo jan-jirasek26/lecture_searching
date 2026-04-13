@@ -17,6 +17,15 @@ def read_data(file_name, field):
             - str: If field is 'dna_sequence'.
             - None: If the field is not supported.
     """
+    with open(file_name, "r") as json_file:
+        dict = json.load(json_file)
+
+    if field not in dict.keys():
+        return None
+    else:
+        sequential_data = dict[field]
+        return print(sequential_data)
+
     # get current working directory path
     cwd_path = Path.cwd()
     
@@ -24,7 +33,7 @@ def read_data(file_name, field):
 
 
 def main():
-    pass
+    read_data("sequential.json", "unordered_numbers")
 
 
 if __name__ == "__main__":
