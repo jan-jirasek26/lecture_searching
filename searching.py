@@ -1,7 +1,6 @@
 from pathlib import Path
 import json
 
-
 def read_data(file_name, field):
     """
     Reads a JSON file and returns data for a given field.
@@ -35,8 +34,8 @@ def linear_search(sequence, wanted_num):
     positions = []
     count = 0
     i = 0
-    while i < len(sequence):
-        if sequence[i] == wanted_num:
+    for num in sequence:
+        if num == wanted_num:
             positions.append(i)
             count += 1
             i += 1
@@ -44,6 +43,8 @@ def linear_search(sequence, wanted_num):
             i += 1
 
     return positions, count
+"""
+Sekvenční vyhledávání v neseřazeném seznamu projde všechny prvky než na"""
 
 def main():
     sequence = read_data("sequential.json", "unordered_numbers")
